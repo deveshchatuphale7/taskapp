@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NbUserModule,NbDialogModule,NbToastrModule,NbActionsModule,NbSidebarModule,NbAccordionModule,NbProgressBarModule,NbTooltipModule,NbRadioModule,NbButtonModule,NbContextMenuModule,NbCheckboxModule,NbStepperModule,NbMenuModule,NbLayoutModule,NbPopoverModule,NbSelectModule,NbWindowModule,NbCardModule,NbListModule,NbInputModule,NbTabsetModule } from '@nebular/theme';
 
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 import { AppComponent } from './app.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { HomeComponent } from './home/home.component';
@@ -50,7 +52,8 @@ import { AddnoteComponent } from './addnote/addnote.component';
     NbDialogModule.forRoot(),
     NbStepperModule,
     NbRadioModule,
-    NbAccordionModule
+    NbAccordionModule,
+    CKEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
