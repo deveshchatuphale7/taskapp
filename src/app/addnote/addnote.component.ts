@@ -9,6 +9,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export class AddnoteComponent implements OnInit {
   public Editor = ClassicEditor;
   public notesData:string='';
+  addTitleInputFlag:boolean = false;
 
   public editorChange(){
     console.log(this.notesData);

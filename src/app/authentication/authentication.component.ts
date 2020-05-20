@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { CommonService } from '../common.service';
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthenticationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private common:CommonService) { }
 
   ngOnInit() {
+  }
+
+  public signup():void{
+    this.common.showToast('top-right', 'success','Signup Clicked');
   }
 
 }

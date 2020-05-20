@@ -41,17 +41,23 @@
                     </nb-card-header>
                     <nb-card-body>
                         <div style="margin: 1rem;">
-                            <nb-list>
-                                <nb-list-item>
-                                    <input style="width: 100%;" nbInput placeholder="Enter email">
-                                </nb-list-item>
-                                <nb-list-item>
-                                    <input style="width: 100%;" nbInput placeholder="Enter password">
-                                </nb-list-item>
-                                <nb-list-item>
-                                    <button style="margin:auto;" hero nbButton status="info">Sign Up</button>
-                                </nb-list-item>
-                            </nb-list>
+
+                                    <div class="">
+                                    <div class="marg-tb d-flex flex-row justify-content-around" style="width: 100%;">
+                                        <input class="marg-rt" style="width: 50%;" nbInput placeholder="First name"> <input class="marg-lt" style="width: 50%;" nbInput placeholder="Last name">
+                                    </div>
+                                    <div class="marg-tb" style="width: 100%;">
+                                        <input style="width: 100%;" type="email" nbInput placeholder="Enter email">
+                                    </div>
+                                    <div class="marg-tb" style="width: 100%;">
+                                        <input style="width: 100%;" nbInput placeholder="Enter Contact No">
+                                    </div>
+                                    <div class="marg-tb" style="width: 100%;">
+                                        <input style="width: 100%;" type="password" nbInput placeholder="Enter password">
+                                    </div>
+                                </div>
+                               
+                                    <button style="margin:auto;" hero nbButton status="info" (click)="signup()">Sign Up</button>
                             </div>
                     </nb-card-body>
                     <nb-card-footer class="text-right">

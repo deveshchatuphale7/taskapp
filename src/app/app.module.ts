@@ -6,9 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NbThemeModule } from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-import { NbUserModule,NbDialogModule,NbToastrModule,NbActionsModule,NbSidebarModule,NbAccordionModule,NbProgressBarModule,NbTooltipModule,NbRadioModule,NbButtonModule,NbContextMenuModule,NbCheckboxModule,NbStepperModule,NbMenuModule,NbLayoutModule,NbPopoverModule,NbSelectModule,NbWindowModule,NbCardModule,NbListModule,NbInputModule,NbTabsetModule } from '@nebular/theme';
-
+import { NbUserModule,NbDialogModule,NbCalendarModule,NbIconModule,NbDatepickerModule,NbToastrModule,NbActionsModule,NbSidebarModule,NbAccordionModule,NbProgressBarModule,NbTooltipModule,NbRadioModule,NbButtonModule,NbContextMenuModule,NbCheckboxModule,NbStepperModule,NbMenuModule,NbLayoutModule,NbPopoverModule,NbSelectModule,NbWindowModule,NbCardModule,NbListModule,NbInputModule,NbTabsetModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { AppComponent } from './app.component';
@@ -32,14 +33,17 @@ import { AddnoteComponent } from './addnote/addnote.component';
     AppRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     NbThemeModule.forRoot(),
+    NbDatepickerModule.forRoot(),
     NbLayoutModule,
     NbSidebarModule.forRoot(),
     NbToastrModule.forRoot(),
     NbUserModule,
     NbWindowModule.forRoot(),
     NbCardModule,
+    NbCalendarModule,
     NbListModule,
     NbSelectModule,
     NbCheckboxModule,
@@ -53,6 +57,8 @@ import { AddnoteComponent } from './addnote/addnote.component';
     NbStepperModule,
     NbRadioModule,
     NbAccordionModule,
+    NbEvaIconsModule,
+    NbIconModule,
     CKEditorModule
   ],
   providers: [],

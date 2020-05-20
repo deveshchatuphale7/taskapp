@@ -1,2 +1,32 @@
-<p>addnote works!</p>
-<ckeditor [editor]="Editor" [(ngModel)]="notesData" (change)="editorChange()"></ckeditor>
+
+<div class="d-flex flex-row justify-content-between">
+    
+        <p *ngIf="!addTitleInputFlag" style="border-bottom:1px solid #c7c7c7;cursor: pointer;" (click)="addTitleInputFlag = true "> Enter title for a note </p>    
+        <input *ngIf="addTitleInputFlag" nbInput status="info" placeholder="Enter title for a note" (blur)="addTitleInputFlag = false ">
+
+        <input placeholder="Pick an end date" [nbDatepicker]="datepicker">
+        <nb-datepicker #datepicker></nb-datepicker>
+
+        <button style="margin:auto;" nbButton [nbPopover]="addLabelTemplate">Add label</button>
+
+        <button hero nbButton status="info">Save</button>
+ 
+</div>
+
+<div>
+<ckeditor style="height: 300px;" [editor]="Editor" [(ngModel)]="notesData" (change)="editorChange()"></ckeditor>
+</div>
+
+<ng-template #addLabelTemplate>
+    <nb-list>
+        <nb-list-item>
+            <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 1</button></nb-checkbox>
+        </nb-list-item>
+        <nb-list-item>
+            <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 2</button></nb-checkbox>
+        </nb-list-item>
+        <nb-list-item>
+            <nb-checkbox status="success"><button shape="round" size="small" nbButton status="info">Label 3</button></nb-checkbox>
+        </nb-list-item>
+    </nb-list>
+  </ng-template>

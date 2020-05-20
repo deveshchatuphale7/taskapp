@@ -1,8 +1,32 @@
 <nb-layout>
     <nb-layout-header fixed style="background-color:#FFF;border-bottom: 1px solid #D0D0D0;">
-   <span style="font-size: 26px;font-family: 'Exo', sans-serif;">Tasksapp</span>
+   <div style="width:100%;display: flex;flex-direction: row;flex-wrap: nowrap;justify-content: space-between;">
+    <span style="font-size: 26px;font-family: 'Exo', sans-serif;">Tasksapp</span>
+   <nb-user name="Devesh Chatuphale"
+   title="dcdevesh3@gmail.com"
+   [nbContextMenu]="items"
+   nbContextMenuTag="my-context-menu"></nb-user>
+   </div>
     </nb-layout-header>
-    <nb-layout-column style="background: #FFF;padding: 1.25rem 2.25rem 0.75rem;">
+    <nb-sidebar state="compacted">
+      <nb-icon nbTooltip="Add a task" routerLink="addtask" nbTooltipPlacement="right" nbTooltipIcon="plus-circle-outline" icon="plus-circle-outline"></nb-icon>
+      <br>
+      <hr>
+      <br>
+      <nb-icon nbTooltip="View all tasks" nbTooltipPlacement="right" nbTooltipIcon="calendar-outline" icon="calendar-outline"></nb-icon>
+      <br>
+      <hr>
+      <br>
+      <nb-icon nbTooltip="Analytics" nbTooltipPlacement="right" nbTooltipIcon="bar-chart-outline" icon="bar-chart-outline"></nb-icon>
+      <br>
+      <hr>
+      <br>
+      <nb-icon nbTooltip="Settings" nbTooltipPlacement="right" nbTooltipIcon="options-2-outline" icon="options-2-outline"></nb-icon>
+      <br>
+      <hr>
+      <br>
+    </nb-sidebar>
+    <nb-layout-column style="background: #edf0f4;;padding: 1.25rem 2.25rem 0.75rem;">
       <router-outlet></router-outlet>
     </nb-layout-column>
     <nb-layout-footer fixed style="font-size:30px;font-size:18px;font-family: 'Exo', sans-serif;">
