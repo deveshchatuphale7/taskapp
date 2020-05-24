@@ -7,6 +7,10 @@ import { HttpClient } from '@angular/common/http';
 
 export class CommonService {
 
+  userLabels:string[] = ['Work','Personal','Shopping'];
+  firstName:string = 'Devesh';
+  lastName:String = 'Chatuphale';
+
    animateCSS = (element, animation, prefix = 'animate__') =>
   // We create a Promise and return it
   new Promise((resolve, reject) => {
@@ -27,11 +31,19 @@ export class CommonService {
   });
 
   showToast(position, status,msg) {
-    let duration = 2000
+    let duration = 3000
     this.toastrService.show(
       status || 'Success',
       msg,
       { position,status,duration});
+  }
+
+  httpGet(url){
+    return this.http.get(url);
+  }
+
+  httpPost(url,params){
+    return this.http.post(url,params);
   }
 
   constructor(private toastrService: NbToastrService,private http:HttpClient) {

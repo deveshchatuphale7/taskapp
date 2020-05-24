@@ -2,20 +2,23 @@
 <div class="d-flex flex-row justify-content-between">
     
         <p *ngIf="!addTitleInputFlag" style="border-bottom:1px solid #c7c7c7;cursor: pointer;" (click)="addTitleInputFlag = true "> Enter title for a note </p>    
-        <input *ngIf="addTitleInputFlag" nbInput status="info" placeholder="Enter title for a note" (blur)="addTitleInputFlag = false ">
+        <input *ngIf="addTitleInputFlag" nbInput [(ngModel)]="notesTitle" status="info" placeholder="Enter title for a note" (blur)="addTitleInputFlag = false ">
 
-        <input placeholder="Pick an end date" [nbDatepicker]="datepicker">
+        <div>
+            <input [(ngModel)]="dueDate" placeholder="Pick an end date" [nbDatepicker]="datepicker">
         <nb-datepicker #datepicker></nb-datepicker>
-
-        <button style="margin:auto;" nbButton [nbPopover]="addLabelTemplate">Add label</button>
-
-        <button hero nbButton status="info">Save</button>
+        </div>
+        
+        <button hero nbButton status="info" (click)="openSaveTask()">Save</button>
  
 </div>
 
 <div>
 <ckeditor style="height: 300px;" [editor]="Editor" [(ngModel)]="notesData" (change)="editorChange()"></ckeditor>
 </div>
+
+<button style="margin:auto;" nbButton [nbPopover]="addLabelTemplate">Add label</button>
+
 
 <ng-template #addLabelTemplate>
     <nb-list>

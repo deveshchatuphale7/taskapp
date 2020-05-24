@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NbThemeModule } from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 
 import { NbUserModule,NbDialogModule,NbCalendarModule,NbIconModule,NbDatepickerModule,NbToastrModule,NbActionsModule,NbSidebarModule,NbAccordionModule,NbProgressBarModule,NbTooltipModule,NbRadioModule,NbButtonModule,NbContextMenuModule,NbCheckboxModule,NbStepperModule,NbMenuModule,NbLayoutModule,NbPopoverModule,NbSelectModule,NbWindowModule,NbCardModule,NbListModule,NbInputModule,NbTabsetModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -35,6 +36,7 @@ import { AddnoteComponent } from './addnote/addnote.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule,
     NbThemeModule.forRoot(),
     NbDatepickerModule.forRoot(),
     NbLayoutModule,

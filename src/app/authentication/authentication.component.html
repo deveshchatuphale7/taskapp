@@ -5,7 +5,7 @@
     <nb-layout-header fixed style="background-color:#FFF;border-bottom: 1px solid #D0D0D0;">
    <span style="font-size: 26px;font-family: 'Exo', sans-serif;">Tasksapp</span>
     </nb-layout-header>
-    <nb-layout-column style="background: #edf0f4;padding: 1.25rem 2.25rem 0.75rem;">
+    <nb-layout-column style="  background-image: url('/assets/imgs/sticky-note.jpg');padding: 1.25rem 2.25rem 0.75rem;  opacity: 0.5;  background-size: 100% 100%;">
         <div style="text-align: center;">
             <div style="width: 30%;margin: auto;">
             <nb-flip-card>
@@ -18,13 +18,13 @@
                       <div style="margin: 1rem;">
                     <nb-list>
                         <nb-list-item>
-                            <input style="width: 100%;" nbInput placeholder="Enter email">
+                            <input type="email" style="width: 100%;" nbInput placeholder="Enter email">
                         </nb-list-item>
                         <nb-list-item>
-                            <input style="width: 100%;" nbInput placeholder="Enter password">
+                            <input type="password" style="width: 100%;" nbInput placeholder="Enter password">
                         </nb-list-item>
                         <nb-list-item>
-                            <button style="margin:auto;" hero nbButton status="info">Signin</button>
+                            <button style="margin:auto;" hero nbButton status="info" (click)="signin()">Signin</button>
                         </nb-list-item>
                     </nb-list>
                     </div>
@@ -44,16 +44,24 @@
 
                                     <div class="">
                                     <div class="marg-tb d-flex flex-row justify-content-around" style="width: 100%;">
-                                        <input class="marg-rt" style="width: 50%;" nbInput placeholder="First name"> <input class="marg-lt" style="width: 50%;" nbInput placeholder="Last name">
+                                        <div style="width: 50%;text-align: right;">
+                                            <input type="text" [(ngModel)]="userDataObj.firstName" style="width: 150px;" nbInput placeholder="First name">
+                                        </div>
+                                        <div style="width: 50%;text-align: left;">
+                                            <input type="text" [(ngModel)]="userDataObj.lastName" style="width: 150px;" nbInput placeholder="Last name">
+                                        </div>
                                     </div>
                                     <div class="marg-tb" style="width: 100%;">
-                                        <input style="width: 100%;" type="email" nbInput placeholder="Enter email">
+                                        <input type="email" [(ngModel)]="userDataObj.email" style="width: 300px;" nbInput placeholder="Enter email">
                                     </div>
                                     <div class="marg-tb" style="width: 100%;">
-                                        <input style="width: 100%;" nbInput placeholder="Enter Contact No">
+                                        <input type="text" [(ngModel)]="userDataObj.contactNo" style="width: 300px;" nbInput placeholder="Enter Contact No">
                                     </div>
                                     <div class="marg-tb" style="width: 100%;">
-                                        <input style="width: 100%;" type="password" nbInput placeholder="Enter password">
+                                        <input type="password" [(ngModel)]="userDataObj.password" style="width: 300px;" nbInput placeholder="Enter password">
+                                    </div>
+                                    <div class="marg-tb" style="width: 100%;">
+                                        <input type="password" [(ngModel)]="userDataObj.cnfPassword" style="width: 300px;" nbInput placeholder="Confirm password">
                                     </div>
                                 </div>
                                
