@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { NbUserModule,NbDialogModule,NbCalendarModule,NbIconModule,NbDatepickerModule,NbToastrModule,NbActionsModule,NbSidebarModule,NbAccordionModule,NbProgressBarModule,NbTooltipModule,NbRadioModule,NbButtonModule,NbContextMenuModule,NbCheckboxModule,NbStepperModule,NbMenuModule,NbLayoutModule,NbPopoverModule,NbSelectModule,NbWindowModule,NbCardModule,NbListModule,NbInputModule,NbTabsetModule } from '@nebular/theme';
+import { NbUserModule,NbDialogModule,NbCalendarModule,NbToggleModule,NbIconModule,NbDatepickerModule,NbToastrModule,NbActionsModule,NbSidebarModule,NbAccordionModule,NbProgressBarModule,NbTooltipModule,NbRadioModule,NbButtonModule,NbContextMenuModule,NbCheckboxModule,NbStepperModule,NbMenuModule,NbLayoutModule,NbPopoverModule,NbSelectModule,NbWindowModule,NbCardModule,NbListModule,NbInputModule,NbTabsetModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
@@ -19,6 +19,7 @@ import { HomeComponent } from './home/home.component';
 import { ViewComponent } from './view/view.component';
 import { ViewnoteComponent } from './viewnote/viewnote.component';
 import { AddnoteComponent } from './addnote/addnote.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AddnoteComponent } from './addnote/addnote.component';
     HomeComponent,
     ViewComponent,
     ViewnoteComponent,
-    AddnoteComponent
+    AddnoteComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { AddnoteComponent } from './addnote/addnote.component';
     NbUserModule,
     NbWindowModule.forRoot(),
     NbCardModule,
+    NbToggleModule,
     NbCalendarModule,
     NbListModule,
     NbSelectModule,

@@ -33,7 +33,7 @@ export class CommonService {
   showToast(position, status,msg) {
     let duration = 3000
     this.toastrService.show(
-      status || 'Success',
+       '',
       msg,
       { position,status,duration});
   }
