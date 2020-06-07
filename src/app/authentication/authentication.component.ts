@@ -10,6 +10,11 @@ import { Router } from '@angular/router';
 export class AuthenticationComponent implements OnInit {
 
   constructor(private common:CommonService,private router:Router) { }
+  signinObj:any = {
+    email: undefined,
+    password: undefined
+
+  };
 
   userDataObj: any = {
     firstName: undefined,
@@ -23,31 +28,71 @@ export class AuthenticationComponent implements OnInit {
   ngOnInit() {
   }
 
-  public signup():void{
-    if(this.userDataObj.firstName && this.userDataObj.lastName && this.userDataObj.email && this.userDataObj.contactNo && this.userDataObj.password && this.userDataObj.cnfPassword){
+  public signupUser(userDataObj:any):void{
+    if(userDataObj.firstName && userDataObj.lastName && userDataObj.email && userDataObj.contactNo && userDataObj.password && userDataObj.cnfPassword){
          
-      if(this.userDataObj.contactNo.match(/^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/g) == null){
+      if(userDataObj.contactNo.match(/^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/g) == null){
           this.common.showToast('top-right', 'danger','Please enter valid contact number');            
-         }
-         else if(this.userDataObj.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g)== null){
+      }
+      else if(userDataObj.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g)== null){
           this.common.showToast('top-right', 'danger','Please enter valid email');
-	
-          
-         }
+      }else if(userDataObj.password != userDataObj.cnfPassword){
+        this.common.showToast('top-right', 'danger','Passwords doesnt match');
+      }
+      else{
+        this.common.httpPost('signup',userDataObj).subscribe((res:any)=>{
 
-    
+          if(res.statusCode != 200){
+            this.common.showToast('top-right', 'danger',res.msg);
+          }else{
+            this.common.showToast('top-right', 'success','Signup successful !');
+            for(let key in userDataObj){
+              userDataObj[key] = undefined;
+            }
+          }
+        },((err:any)=>{
+          this.common.showToast('top-right', 'danger',err.msg || 'Something went wrong !');
+        }));
+      } 
+
     }else{
           this.common.showToast('top-right', 'danger','Please enter all details');
     }
 
-    
     // this.common.showToast('top-right', 'success',':::');
     // this.router.navigate(["/home"]);
   }
 
-  public signin():void{
+  public signinUser(signinObj:any):void{
 
-    this.router.navigate(["/home"]);
+    if(signinObj.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g)== null){
+      this.common.showToast('top-right', 'danger','Please enter valid email');
+    }else if(signinObj.password.length == 0){
+      this.common.showToast('top-right', 'danger','Please enter password');
+    }else{
+
+      this.common.httpPost('signin',signinObj).subscribe((res:any)=>{
+         this.common.showToast('top-right', 'info',`Welcome ${res.msg.firstName} ${res.msg.lastName} !`);
+        localStorage.setItem("email",res.msg.email);
+        localStorage.setItem("firstName",res.msg.firstName);
+        localStorage.setItem("lastName",res.msg.lastName);
+        localStorage.setItem("timeToken",res.msg.token);
+          setTimeout(() => {
+             this.router.navigate(["/home"]);    
+          }, 600);
+            
+
+
+      },err=>{
+        // console.log(err);
+        if(err.status == 401){
+          this.common.showToast('top-right', 'danger',err.msg || 'Invalid credentials ');
+        }else{
+          this.common.showToast('top-right', 'danger',err.msg || 'Something went wrong !');
+        }
+        
+      });
+    }    
   }
 
 

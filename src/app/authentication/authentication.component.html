@@ -2,75 +2,80 @@
 
 
 <nb-layout>
-    <nb-layout-header fixed style="background-color:#FFF;border-bottom: 1px solid #D0D0D0;">
-   <span style="font-size: 26px;font-family: 'Exo', sans-serif;">Tasksapp</span>
-    </nb-layout-header>
+    <!-- <nb-layout-header fixed style="background-color:#FFF;border-bottom: 1px solid #D0D0D0;">
+   <span style="font-size: 26px;font-family: 'Exo', sans-serif;">Timely</span>
+    </nb-layout-header> -->
     <nb-layout-column style="  background-image: url('/assets/imgs/sticky-note.jpg');padding: 1.25rem 2.25rem 0.75rem;  opacity: 0.5;  background-size: 100% 100%;">
         <div style="text-align: center;">
             <div style="width: 30%;margin: auto;">
             <nb-flip-card>
                 <nb-card-front>
-                  <nb-card style="height: 28rem;">
-                    <nb-card-header>
-                        Welcome !
+                  <nb-card style="height: 28rem;margin-top: 5%;">
+                    <nb-card-header class="title-hdr">
+                        Timely
                     </nb-card-header>
                     <nb-card-body>
                       <div style="margin: 1rem;">
+                        <form #signin="ngForm" (ngSubmit)="signinUser(signin.value)">
                     <nb-list>
                         <nb-list-item>
-                            <input type="email" style="width: 100%;" nbInput placeholder="Enter email">
+                            <input type="email" name="email" ngModel style="width: 100%;font-family: 'Exo', sans-serif;" nbInput status="info" placeholder="Enter email">
                         </nb-list-item>
                         <nb-list-item>
-                            <input type="password" style="width: 100%;" nbInput placeholder="Enter password">
+                            <input type="password" name="password" ngModel style="width: 100%;font-family: 'Exo', sans-serif;" nbInput status="info" placeholder="Enter password">
                         </nb-list-item>
                         <nb-list-item>
-                            <button style="margin:auto;" hero nbButton status="info" (click)="signin()">Signin</button>
+                            <button type="submit" style="margin:auto;" hero nbButton status="info">Signin</button>
+                            <!-- (click)="signin()" -->
                         </nb-list-item>
                     </nb-list>
+                </form>
                     </div>
                     </nb-card-body>
                     <nb-card-footer class="text-right">
-                        <span style="padding-right: 20px;vertical-align: text-bottom;">New user ? Sign up now !</span>
+                        <span style="padding-right: 20px;vertical-align: text-bottom;font-family: 'Poppins', sans-serif;">New user ? Sign up now !</span>
                     </nb-card-footer>
                   </nb-card>
                 </nb-card-front>
                 <nb-card-back>
-                  <nb-card style="height: 28rem;">
-                    <nb-card-header>
-                        Welcome !
+                  <nb-card style="height: 28rem;margin-top: 5%;">
+                    <nb-card-header class="title-hdr">
+                        Timely
                     </nb-card-header>
                     <nb-card-body>
                         <!-- style="max-height: 21rem;height: 21rem !important;" -->
                         <div style="margin: 1rem;">
-
-                                    <div class="">
+                            <form #signup="ngForm" (ngSubmit)="signupUser(signup.value)">
+                                    <div>
                                     <div class="marg-tb d-flex flex-row justify-content-around" style="width: 100%;">
                                         <div style="width: 50%;text-align: right;">
-                                            <input type="text" [(ngModel)]="userDataObj.firstName" style="width: 150px;" nbInput placeholder="First name">
+                                            <input type="text" name="firstName" ngModel style="width: 150px;font-family: 'Exo', sans-serif;" nbInput status="info" placeholder="First name">
                                         </div>
                                         <div style="width: 50%;text-align: left;">
-                                            <input type="text" [(ngModel)]="userDataObj.lastName" style="width: 150px;" nbInput placeholder="Last name">
+                                            <input type="text" name="lastName" ngModel style="width: 150px;font-family: 'Exo', sans-serif;" nbInput status="info" placeholder="Last name">
                                         </div>
                                     </div>
                                     <div class="marg-tb" style="width: 100%;">
-                                        <input type="email" [(ngModel)]="userDataObj.email" style="width: 300px;" nbInput placeholder="Enter email">
+                                        <input type="email" name="email" ngModel style="width: 300px;font-family: 'Exo', sans-serif;" nbInput status="info" placeholder="Enter email">
                                     </div>
                                     <div class="marg-tb" style="width: 100%;">
-                                        <input type="text" [(ngModel)]="userDataObj.contactNo" style="width: 300px;" nbInput placeholder="Enter Contact No">
+                                        <input type="text" name="contactNo" ngModel style="width: 300px;font-family: 'Exo', sans-serif;" nbInput status="info" placeholder="Enter Contact No">
                                     </div>
                                     <div class="marg-tb" style="width: 100%;">
-                                        <input type="password" [(ngModel)]="userDataObj.password" style="width: 300px;" nbInput placeholder="Enter password">
+                                        <input type="password" name="password" ngModel style="width: 300px;font-family: 'Exo', sans-serif;" nbInput status="info" placeholder="Enter password">
                                     </div>
                                     <div class="marg-tb" style="width: 100%;">
-                                        <input type="password" [(ngModel)]="userDataObj.cnfPassword" style="width: 300px;" nbInput placeholder="Confirm password">
+                                        <input type="password" name="cnfPassword" ngModel style="width: 300px;font-family: 'Exo', sans-serif;" nbInput status="info" placeholder="Confirm password">
                                     </div>
                                 </div>
                                
-                                    <button style="margin:auto;" hero nbButton status="info" (click)="signup()">Sign Up</button>
+                                    <button style="margin:auto;" hero nbButton status="info">Sign Up</button>
+                                    <!-- (click)="signup()" -->
+                                </form>
                             </div>
                     </nb-card-body>
                     <nb-card-footer class="text-right">
-                        <span style="padding-right: 20px;vertical-align: text-bottom;"> Back to login</span>
+                        <span style="padding-right: 20px;vertical-align: text-bottom;font-family: 'Poppins', sans-serif;"> Back to login</span>
                     </nb-card-footer>
                   </nb-card>
                 </nb-card-back>

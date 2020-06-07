@@ -1,16 +1,216 @@
-<div class="d-flex">
-{{ today | date:'fullDate' }}
+<div *ngIf="!dataPresent" class="d-flex mb-3" style="text-align: center;margin-top: 5%;">
+  <img style="margin: auto;"  src="assets/imgs/Eclipse.gif"/>
 </div>
 
-<nb-card>
-    <nb-card-header>
-Header
-    </nb-card-header>
-    <nb-card-body>
-Body
-<h1 class="animate__animated animate__bounce">An animated element</h1>
-    </nb-card-body>
-    <nb-card-footer>
-        Footer
-    </nb-card-footer>
-</nb-card>
+<div *ngIf="dataPresent">
+
+<div *ngIf="!noTasksFlag" class="d-flex mb-3">
+<h2 style="font-family: 'Poppins', sans-serif;">Your active tasks </h2>
+</div>
+
+<div *ngIf="noTasksFlag" style="text-align: center;margin-top: 5%;">
+  <h2 style=" font-family: 'Poppins', sans-serif;margin: auto;line-height: 51px;">Hey there ! You don't have any active tasks<br>
+  Lets get started by <a routerLink="/home/addtask">adding some tasks</a> !
+  </h2>
+
+</div>
+
+<div *ngIf="!noTasksFlag" class="d-flex mb-3">
+<!-- {{ today | date:'fullDate' }} -->
+<div class="group">
+    <input [(ngModel)]="searchText" (keyup)="filterActiveTasks()" class="input-custom" type="text"><span class="highlight"></span><span class="bar"></span>
+    <label *ngIf="!searchText"><nb-icon nbTooltip="Search task" nbTooltipPlacement="right" nbTooltipIcon="search-outline" icon="search-outline"></nb-icon> Search task</label>
+  </div>
+  
+<!-- <div class="form-group has-search">
+    <span class="form-control-feedback">
+        <nb-icon nbTooltip="Search task" nbTooltipPlacement="right" nbTooltipIcon="search-outline" icon="search-outline"></nb-icon>
+    </span>
+    <input type="text" class="form-control" placeholder="Search task">
+  </div> -->
+  <div class="group" style="margin: auto 35px;">
+    <input [(ngModel)]="searchDate" class="input-custom" (keyup)="fitlerByDateSelcted()" type="text" [nbDatepicker]="datepicker"><span class="highlight"></span><span class="bar"></span>
+    <label *ngIf="!searchDate">Filter by due date</label>
+    <nb-datepicker #datepicker (dateChange)="fitlerByDateSelcted()"></nb-datepicker>
+  </div>
+
+  <div class="group" style="margin: auto 35px;">
+    <div nbTooltip="Filter by task containing a tag" nbTooltipPlacement="top" nbTooltipIcon="pricetags-outline">
+      <nb-icon style="font-size: 1.5rem;" class="nb-icn mr-1" [nbPopover]="filterByTagTemplate" nbPopoverPlacement="bottom"  icon="pricetags-outline"> </nb-icon> <span style="color:#636363"></span>Filter by tags
+    </div>
+  </div>
+
+  <nb-select placeholder="Filter by label" [(ngModel)]="filterLabel">
+    <nb-option style="font-family: 'Poppins', sans-serif" value="In progress" (click)="filterActiveTasks()">In progress</nb-option>
+    <nb-option style="font-family: 'Poppins', sans-serif" value="New" (click)="filterActiveTasks()">New</nb-option>
+    <nb-option style="font-family: 'Poppins', sans-serif" value="Paused" (click)="filterActiveTasks()">Paused</nb-option>
+    <nb-option style="font-family: 'Poppins', sans-serif;font-weight: 400;" value="undefined" (click)="filterActiveTasks()"><i>Clear Filter</i></nb-option>
+  </nb-select>  
+<!--
+  <div class="group" style="margin: auto 35px;">
+    <div nbTooltip="Sort tasks" nbTooltipPlacement="top" nbTooltipIcon="bar-chart-2-outline">
+      <nb-icon style="font-size: 1.5rem;" class="nb-icn mr-1" [nbPopover]="sortTemplate" nbPopoverPlacement="bottom"  icon="bar-chart-2-outline"> </nb-icon> <span style="color:#636363"></span>Sort tasks
+    </div>
+  </div> -->
+
+  <!-- <div id="viewtask" (mouseenter) ="common.runAnimation('#viewtask','pulse')" class="form-group has-search">
+    <input type="text" class="form-control" placeholder="Filter by due date">
+  </div> -->
+</div>
+<div *ngIf="!noTasksFlag">
+    <table style="width: 100%;border-collapse: separate;border-spacing: 0px 6px;">
+        <tr class="card1" id="row{{ind}}" *ngFor="let eachTask of filterdActiveTasksData;let ind=index;">
+            <td style="width: 5%;text-align: center;">
+                <nb-icon [ngClass]="{'task-not-complete': !eachTask.completed,'task-complete': eachTask.completed}" nbTooltip="Mark as completed" nbTooltipPlacement="top" nbTooltipIcon="checkmark-circle-2-outline" icon="checkmark-circle-2-outline" (click)="markTaskComplete(eachTask.uid)"></nb-icon>
+            </td>
+            <td style="width: 20%;" [ngClass]="{'task-text-complete': eachTask.completed}">
+                {{eachTask.taskTitle}}
+            </td>
+            <!-- If possible , due date -->
+            <td style="width: 15%;">
+                Due on {{eachTask.dueDate | date}} 
+            </td>
+            <td style="width: 25%;"> <button *ngFor="let tag of eachTask.tags" class="{{tag}}"> {{tag}} </button> </td>
+            <td style="width: 10%;"> {{eachTask.label[0]}}</td>
+             <td style="width: 10%;">
+              <span style="font-family: 'Poppins', sans-serif;color:#ff3d71" *ngIf="ifOverdue(eachTask.uid)">Overdue</span>
+            </td>   
+            <td style="width: 5%;text-align: center;">
+                <nb-icon class="nb-icn" (click)="viewTask(eachTask.uid,dialog)" id="viewtask{{ind}}" (mouseenter) ="common.runAnimation('#viewtask'+ind,'heartBeat')"  nbTooltip="View task" nbTooltipPlacement="right" nbTooltipIcon="eye-outline" icon="eye-outline"></nb-icon>
+            </td>
+            <td style="width: 5%;text-align: center;">
+                <nb-icon class="nb-icn" (click)="editTask(eachTask.uid)" nbTooltip="Edit task" id="edittask{{ind}}" (mouseenter) ="common.runAnimation('#edittask'+ind,'heartBeat')"  nbTooltipPlacement="right" nbTooltipIcon="edit-2-outline" icon="edit-2-outline"></nb-icon>
+            </td>
+            <td style="width: 5%;text-align: center;">
+                <nb-icon class="nb-icn" nbTooltip="Delete task" id="deletetask{{ind}}" (click)="archiveTask(eachTask.uid)" (mouseenter) ="common.runAnimation('#deletetask'+ind,'heartBeat')" nbTooltipPlacement="right" nbTooltipIcon="trash-2-outline" icon="trash-2-outline"></nb-icon>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+<div *ngIf="filterdActiveTasksData.length==0 && !noTasksFlag" class="mt-3 mb-3">
+  <p style="font-family: 'Poppins', sans-serif;margin: auto;width: 200px;line-height: 20px;">  No tasks found  ¯\_(ツ)_/¯ </p>
+</div>
+
+<div *ngIf="!noTasksFlag" class="mb-3 mt-3">
+  <hr style="width: 95%;margin: auto;height: 2px;">
+</div>
+
+<div *ngIf="!noTasksFlag" class="d-flex mb-3">
+  <h2 style="font-family: 'Poppins', sans-serif;">Completed tasks </h2>
+</div>
+<div class="mt-3" *ngIf="(completedTasksData==undefined || completedTasksData.length==0) && !noTasksFlag">
+  You dont have any completed task
+</div>
+<div class="mt-3" *ngIf="completedTasksData!=undefined && !noTasksFlag">
+  <table style="width: 100%;border-collapse: separate;border-spacing: 0px 6px;">
+      <tr class="card1" id="rowc{{ind}}" *ngFor="let eachTask of completedTasksData;let ind=index;">
+          <td style="width: 5%;text-align: center;">
+              <nb-icon [ngClass]="{'task-not-complete': !eachTask.completed,'task-complete': eachTask.completed}" nbTooltip="Mark as completed" nbTooltipPlacement="top" nbTooltipIcon="checkmark-circle-2-outline" icon="checkmark-circle-2-outline"></nb-icon>
+          </td>
+          <td style="width: 30%;" [ngClass]="{'task-text-complete': eachTask.completed}">
+              {{eachTask.taskTitle}}
+          </td>
+          <!-- If possible , due date -->
+          <td style="width: 15%;">
+              Completed on {{eachTask.completedOn | date}}
+          </td>
+          <td style="width: 20%;"> </td>
+          <td style="width: 15%;"> </td>
+  
+          <td style="width: 5%;text-align: center;"></td>
+          <td style="width: 5%;text-align: center;"></td>
+          <td style="width: 5%;text-align: center;">
+              <nb-icon class="nb-icn" nbTooltip="Undo" id="undoc{{ind}}" (click)="undoTasks('complete',eachTask.uid,'rowc'+ind)" (mouseenter) ="common.runAnimation('#undoc'+ind,'heartBeat')" nbTooltipPlacement="top" nbTooltipIcon="undo-outline" icon="undo-outline"></nb-icon>
+          </td>
+      </tr>
+  </table>
+</div>
+
+<div *ngIf="!noTasksFlag" class="mb-3 mt-3">
+  <hr style="width: 95%;margin: auto;height: 2px;">
+</div>
+
+<div *ngIf="!noTasksFlag" class="d-flex mb-3">
+  <h2 style=" font-family: 'Poppins', sans-serif;">Archived tasks  <nb-icon nbTooltip="Archived tasks will be removed completely after 15 days after archiving" nbTooltipPlacement="top" icon="info-outline"></nb-icon>  </h2>
+</div>
+
+<div *ngIf="(deletedTasksData==undefined || deletedTasksData.length==0) && !noTasksFlag" class="mt-3">
+  You dont have any archived tasks
+</div>
+
+<div class="mt-3" *ngIf="deletedTasksData!=undefined && !noTasksFlag">
+  <table style="width: 100%;border-collapse: separate;border-spacing: 0px 6px;">
+      <tr class="card1" id="rowd{{ind}}" *ngFor="let eachTask of deletedTasksData;let ind=index;">
+          <td style="width: 5%;text-align: center;">
+              <nb-icon [ngClass]="{'task-not-complete': !eachTask.completed,'task-complete': eachTask.completed}" nbTooltip="Mark as completed" nbTooltipPlacement="top" nbTooltipIcon="checkmark-circle-2-outline" icon="checkmark-circle-2-outline"></nb-icon>
+          </td>
+          <td style="width: 30%;" [ngClass]="{'task-text-complete': eachTask.completed}">
+              {{eachTask.taskTitle}}
+          </td>
+          <!-- If possible , due date -->
+          <td style="width: 15%;">
+              Archived on {{eachTask.deletedOn | date}} 
+          </td>
+          <td style="width: 20%;"> </td>
+          <td style="width: 15%;"> </td>
+  
+          <td style="width: 5%;text-align: center;"></td>
+          <td style="width: 5%;text-align: center;"></td>
+          <td style="width: 5%;text-align: center;">
+              <nb-icon class="nb-icn" nbTooltip="Undo" id="undod{{ind}}" (click)="undoTasks('delete',eachTask.uid,'rowd'+ind)" (mouseenter) ="common.runAnimation('#undod'+ind,'heartBeat')" nbTooltipPlacement="top" nbTooltipIcon="undo-outline" icon="undo-outline"></nb-icon>
+          </td>
+      </tr>
+  </table>
+</div>
+
+</div>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <div style="width: 700px;"> <!-- height: 600px;-->
+        <nb-card>
+            <nb-card-header style="font-family: 'Poppins', sans-serif;">{{selectedTaskForView.taskTitle }}</nb-card-header>
+            <nb-card-body> 
+              <div style="font-family: 'Poppins', sans-serif;" [innerHTML]="selectedTaskForView.taskDesc">
+              </div>
+          </nb-card-body>
+            <nb-card-footer>
+              <button nbButton hero size="small" (click)="ref.close()">Close</button>
+            </nb-card-footer>
+          </nb-card>
+    </div>
+    
+  </ng-template>
+
+  <ng-template #filterByTagTemplate>
+    <nb-list>
+        <nb-list-item *ngFor="let tag of tags">
+             <nb-checkbox value=true [(ngModel)]="tagsObj[tag]"  status="success" (checkedChange)="updateFilterTags(tag)"><button class="{{tag}}" >{{tag}}</button></nb-checkbox> 
+        </nb-list-item>
+        <!-- <nb-list-item>
+            <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 2</button></nb-checkbox>
+        </nb-list-item>
+        <nb-list-item>
+            <nb-checkbox status="success"><button shape="round" size="small" nbButton status="info">Label 3</button></nb-checkbox>
+        </nb-list-item> -->
+    </nb-list>
+  </ng-template>
+
+
+  <ng-template #sortTemplate>
+    <nb-list>
+        <nb-list-item>
+             <nb-radio status="success"> Sort by task title <button>A-Z</button><button>Z-A</button> </nb-radio> 
+        </nb-list-item>
+        <nb-list-item>
+          <nb-radio status="success"> Sort by Due date <button>Recent to last</button><button>Last to recent</button> </nb-radio> 
+     </nb-list-item>
+        <!-- <nb-list-item>
+            <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 2</button></nb-checkbox>
+        </nb-list-item>
+        <nb-list-item>
+            <nb-checkbox status="success"><button shape="round" size="small" nbButton status="info">Label 3</button></nb-checkbox>
+        </nb-list-item> -->
+    </nb-list>
+  </ng-template>

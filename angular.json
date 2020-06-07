@@ -31,7 +31,9 @@
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@nebular/theme/styles/prebuilt/default.css",
-              "node_modules/animate.css/animate.min.css",
+              "node_modules/@nebular/theme/styles/prebuilt/corporate.css",
+              "node_modules/@nebular/theme/styles/prebuilt/cosmic.css",
+              "node_modules/@nebular/theme/styles/prebuilt/dark.css",
               "node_modules/@ckeditor/ckeditor5-theme-lark/theme/theme.css"
 
             ],

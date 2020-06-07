@@ -1,27 +1,27 @@
 <nb-layout>
     <nb-layout-header fixed style="background-color:#FFF;border-bottom: 1px solid #D0D0D0;">
    <div style="width:100%;display: flex;flex-direction: row;flex-wrap: nowrap;justify-content: space-between;">
-    <span style="font-size: 26px;font-family: 'Exo', sans-serif;">Tasksapp</span>
-   <nb-user name="Devesh Chatuphale"
-   title="dcdevesh3@gmail.com"
+    <span style="font-size: 26px;font-family: 'Exo', sans-serif;">Timely</span>
+   <nb-user name="{{userName}}"
+   title="{{userEmail}}"
    [nbContextMenu]="items"
    nbContextMenuTag="my-context-menu"></nb-user>
    </div>
     </nb-layout-header>
     <nb-sidebar state="compacted">
-      <nb-icon nbTooltip="Add a task" routerLink="addtask" nbTooltipPlacement="right" nbTooltipIcon="plus-circle-outline" icon="plus-circle-outline"></nb-icon>
+      <nb-icon class="nb-icn" nbTooltip="Add a task" routerLink="addtask" nbTooltipPlacement="right" nbTooltipIcon="plus-circle-outline" icon="plus-circle-outline"></nb-icon>
       <br>
       <hr>
       <br>
-      <nb-icon nbTooltip="View all tasks" routerLink="viewtasks" nbTooltipPlacement="right" nbTooltipIcon="calendar-outline" icon="calendar-outline"></nb-icon>
+      <nb-icon class="nb-icn" nbTooltip="View all tasks" routerLink="viewtasks" nbTooltipPlacement="right" nbTooltipIcon="calendar-outline" icon="calendar-outline"></nb-icon>
       <br>
       <hr>
       <br>
-      <nb-icon nbTooltip="Analytics" nbTooltipPlacement="right" nbTooltipIcon="bar-chart-outline" icon="bar-chart-outline"></nb-icon>
+      <nb-icon class="nb-icn" nbTooltip="Analytics" nbTooltipPlacement="right" routerLink="analytics" nbTooltipIcon="bar-chart-outline" icon="bar-chart-outline"></nb-icon>
       <br>
       <hr>
       <br>
-      <nb-icon nbTooltip="Settings" routerLink="settings" nbTooltipPlacement="right" nbTooltipIcon="options-2-outline" icon="options-2-outline"></nb-icon>
+      <nb-icon class="nb-icn" nbTooltip="Settings" routerLink="settings" nbTooltipPlacement="right" nbTooltipIcon="options-2-outline" icon="options-2-outline"></nb-icon>
       <br>
       <hr>
       <br>

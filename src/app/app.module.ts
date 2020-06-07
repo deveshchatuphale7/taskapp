@@ -21,6 +21,12 @@ import { ViewnoteComponent } from './viewnote/viewnote.component';
 import { AddnoteComponent } from './addnote/addnote.component';
 import { SettingsComponent } from './settings/settings.component';
 
+import { DEFAULT_THEME } from '@nebular/theme';
+import { COSMIC_THEME } from '@nebular/theme';
+import { CORPORATE_THEME } from '@nebular/theme';
+import { DARK_THEME } from '@nebular/theme';
+import { AnalyticsComponent } from './analytics/analytics.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +35,8 @@ import { SettingsComponent } from './settings/settings.component';
     ViewComponent,
     ViewnoteComponent,
     AddnoteComponent,
-    SettingsComponent
+    SettingsComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +46,7 @@ import { SettingsComponent } from './settings/settings.component';
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule,
-    NbThemeModule.forRoot(),
+    NbThemeModule.forRoot({ name: 'default' }, [ DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME ]),
     NbDatepickerModule.forRoot(),
     NbLayoutModule,
     NbSidebarModule.forRoot(),

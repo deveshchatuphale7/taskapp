@@ -1,35 +1,61 @@
-
-<div class="d-flex flex-row justify-content-between">
+<div class="d-flex flex-row justify-content-between" style="margin:20px auto;"> 
+  <div class="d-flex flex-row justify-content-start align-items-center">
     
-        <p *ngIf="!addTitleInputFlag" style="border-bottom:1px solid #c7c7c7;cursor: pointer;" (click)="addTitleInputFlag = true "> Enter title for a note </p>    
-        <input *ngIf="addTitleInputFlag" nbInput [(ngModel)]="notesTitle" status="info" placeholder="Enter title for a note" (blur)="addTitleInputFlag = false ">
+    <div class="group">
+        <input [(ngModel)]="notesTitle" class="input-custom" type="text"><span class="highlight"></span><span class="bar"></span>
+        <label *ngIf="!notesTitle">Enter title for a task</label>
+      </div>
 
-        <div>
-            <input [(ngModel)]="dueDate" placeholder="Pick an end date" [nbDatepicker]="datepicker">
+      <div class="group" style="margin: auto 35px;">
+        <input [(ngModel)]="dueDate" class="input-custom" type="text" [nbDatepicker]="datepicker"><span class="highlight"></span><span class="bar"></span>
+        <label *ngIf="!dueDate">Pick a due date</label>
         <nb-datepicker #datepicker></nb-datepicker>
-        </div>
-        
-        <button hero nbButton status="info" (click)="openSaveTask()">Save</button>
- 
+      </div>
+
+      <div class="group">
+        <nb-select placeholder="Select label" [(ngModel)]="taskLabel">
+          <nb-option style="font-family: 'Poppins', sans-serif" value="In progress">In progress</nb-option>
+          <nb-option style="font-family: 'Poppins', sans-serif" value="New">New</nb-option>
+          <nb-option style="font-family: 'Poppins', sans-serif" value="Paused">Paused</nb-option>
+        </nb-select>  
+      </div>
+
+      <div class="ml-3">
+        <span nbTooltip="Add tag(s)" nbTooltipPlacement="top" nbTooltipIcon="pricetags-outline">
+          <nb-icon style="font-size: 1.5rem;" class="nb-icn mr-1" [nbPopover]="addLabelTemplate" nbPopoverPlacement="bottom"  icon="pricetags-outline"></nb-icon>
+        </span>
+          <span *ngFor="let tag of selectedTags">
+            <button class="{{tag}}" (click)="toggleTag(tag)"> {{tag}}</button>
+    
+          </span>
+      </div>
+      
+
+
+
+</div>
+<button hero nbButton status="info" size="small" (click)="openSaveTask()">Save</button>
+
+
 </div>
 
 <div>
-<ckeditor style="height: 300px;" [editor]="Editor" [(ngModel)]="notesData" (change)="editorChange()"></ckeditor>
+<ckeditor style="height: 300px;" [editor]="Editor" [(ngModel)]="notesData"></ckeditor>
 </div>
 
-<button style="margin:auto;" nbButton [nbPopover]="addLabelTemplate">Add label</button>
 
 
 <ng-template #addLabelTemplate>
     <nb-list>
-        <nb-list-item>
-            <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 1</button></nb-checkbox>
+        <nb-list-item *ngFor="let tag of tags">
+            <button class="{{tag}}" (click)="toggleTag(tag)"> {{tag}}</button>
+            <!-- <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 1</button></nb-checkbox> -->
         </nb-list-item>
-        <nb-list-item>
+        <!-- <nb-list-item>
             <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 2</button></nb-checkbox>
         </nb-list-item>
         <nb-list-item>
             <nb-checkbox status="success"><button shape="round" size="small" nbButton status="info">Label 3</button></nb-checkbox>
-        </nb-list-item>
+        </nb-list-item> -->
     </nb-list>
   </ng-template>
