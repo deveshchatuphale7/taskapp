@@ -132,26 +132,33 @@ export class ViewComponent implements OnInit, AfterViewInit {
     this.common.runAnimation("#row" + ind, "bounceOutRight");
 
     setTimeout(() => {
+      this.dataPresent = false;
+
       this.common.showToast(
         "top-right",
         "success",
         msgTexts[Math.floor((Math.random() * 10) % 5)]
       );
 
-      this.common
+    let compsub$ = this.common
         .httpPost("complete", {
           flag: true,
           uid: uid,
           email: localStorage.getItem("email"),
         })
-        .subscribe((res1) => {
-          this.common
+        .subscribe((resu) => {
+        let getsub$ = this.common
             .httpPost("retrivetasks", { email: localStorage.getItem("email") })
             .subscribe((res: any) => {
               this.filterTasks(res.data[0].tasks);
+
+              setTimeout(() => {
+                compsub$.unsubscribe();
+                getsub$.unsubscribe();
+              }, 3000);
             });
         });
-    }, 200);
+    }, 300);
   }
 
   archiveTask(uid: string) {
@@ -159,21 +166,28 @@ export class ViewComponent implements OnInit, AfterViewInit {
 
     this.common.runAnimation("#row" + ind, "bounceOutRight");
     setTimeout(() => {
-      this.common
+      this.dataPresent = false;
+
+      let delsub$ = this.common
         .httpPost("delete", {
           flag: true,
           uid: uid,
           email: localStorage.getItem("email"),
         })
-        .subscribe((res1) => {
-          // console.log(res1);
-          this.common
+        .subscribe((resd) => {
+          
+          let getsub$ = this.common
             .httpPost("retrivetasks", { email: localStorage.getItem("email") })
             .subscribe((res: any) => {
               this.filterTasks(res.data[0].tasks);
+
+              setTimeout(() => {
+                delsub$.unsubscribe();
+                getsub$.unsubscribe();
+              }, 3000);
             });
         });
-    }, 200);
+    }, 300);
   }
 
   closeTemplate() {
@@ -200,20 +214,25 @@ export class ViewComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       this.dataPresent = false;
-      this.common
+      let undosub$ = this.common
         .httpPost(section, {
           flag: false,
           uid: uid,
           email: localStorage.getItem("email"),
         })
         .subscribe((resUpdate) => {
-          this.common
+          let getsub$ = this.common
             .httpPost("retrivetasks", { email: localStorage.getItem("email") })
             .subscribe((res: any) => {
               this.filterTasks(res.data[0].tasks);
+
+              setTimeout(() => {
+                getsub$.unsubscribe();
+                undosub$.unsubscribe();
+              }, 3000);
             });
         });
-    }, 200);
+    }, 300);
   }
 
   // Filtering tasks based on active,archived & completed
@@ -245,7 +264,7 @@ export class ViewComponent implements OnInit, AfterViewInit {
      });
 */
 
-    this.common
+    let getsub$ = this.common
       .httpPost("retrivetasks", { email: localStorage.getItem("email") })
       .subscribe((res: any) => {
         this.dataPresent = true;
@@ -253,7 +272,12 @@ export class ViewComponent implements OnInit, AfterViewInit {
         res.data[0].tasks.length == 0
           ? (this.noTasksFlag = true)
           : (this.noTasksFlag = false);
-      });
+        
+        
+          setTimeout(() => {
+            getsub$.unsubscribe();
+          }, 3000);
+        });
   }
 
   ngAfterViewInit() {}
