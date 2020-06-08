@@ -106,6 +106,8 @@ export class ViewComponent implements OnInit, AfterViewInit {
     other:false,
     work:false
   }
+
+  // Function to mark complete the selected task & move it to list of completed tasks
   markTaskComplete(uid: string) {
     let msgTexts = [
       "Great Work !",
@@ -114,21 +116,9 @@ export class ViewComponent implements OnInit, AfterViewInit {
       "Keep up the great work!",
       "Congratulations !",
     ];
+                
     let ind = this.activeTasksData.findIndex((e) => e.uid == uid);
-    // console.log(ind);
-    // console.log(this.activeTasksData);
-
-    /**
-  for(let i=0;i<this.activeTasksData.length;i++){
-    if(this.activeTasksData[i].uid == uid){
-      this.activeTasksData[i].completed = true;
-      ind = i;
-      break;
-    }
-  }
-
-*/
-
+  
     this.common.runAnimation("#row" + ind, "bounceOutRight");
 
     setTimeout(() => {
@@ -158,13 +148,20 @@ export class ViewComponent implements OnInit, AfterViewInit {
               }, 3000);
             });
         });
-    }, 300);
+    },  620);
   }
 
-  archiveTask(uid: string) {
-    let ind = this.activeTasksData.findIndex((e) => e.uid == uid);
+  // Function to archive the selected task 
+  archiveTask(section:string,uid: string,rowid:string) {
+    let ind 
+    if(section == 'active'){
+        ind = this.activeTasksData.findIndex((e) => e.uid == uid);
+    }else if(section == 'complete'){ 
+      ind = this.completedTasksData.findIndex((e) => e.uid == uid);
+    }
+    
 
-    this.common.runAnimation("#row" + ind, "bounceOutRight");
+    this.common.runAnimation("#" + rowid, "bounceOutRight");
     setTimeout(() => {
       this.dataPresent = false;
 
@@ -187,7 +184,7 @@ export class ViewComponent implements OnInit, AfterViewInit {
               }, 3000);
             });
         });
-    }, 300);
+    }, 620);
   }
 
   closeTemplate() {
@@ -232,7 +229,7 @@ export class ViewComponent implements OnInit, AfterViewInit {
               }, 3000);
             });
         });
-    }, 300);
+    },  620);
   }
 
   // Filtering tasks based on active,archived & completed

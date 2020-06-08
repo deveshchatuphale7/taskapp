@@ -28,8 +28,12 @@ export class SettingsComponent implements OnInit {
           if(this.newPassoword != this.cnfNewPassword){
             this.common.showToast('top-right','danger',"New password doen't match");
           }else{
-            this.common.httpPost('updatepwd',{email:localStorage.getItem("email"),oldPassowrd:this.oldPassowrd,newPassoword:this.newPassoword}).subscribe((res:any)=>{
+           let sub$ = this.common.httpPost('updatepwd',{email:localStorage.getItem("email"),oldPassowrd:this.oldPassowrd,newPassoword:this.newPassoword}).subscribe((res:any)=>{
               this.common.showToast('top-right','success',res.msg);
+
+              setTimeout(() => {
+                sub$.unsubscribe();
+              }, 2000);
             },err=>{
               this.common.showToast('top-right','danger',"Something went wrong");
             });

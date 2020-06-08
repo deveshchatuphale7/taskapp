@@ -9,7 +9,7 @@
       <div class="group" style="margin: auto 35px;">
         <input [(ngModel)]="dueDate" class="input-custom" type="text" [nbDatepicker]="datepicker"><span class="highlight"></span><span class="bar"></span>
         <label *ngIf="!dueDate">Pick a due date</label>
-        <nb-datepicker #datepicker></nb-datepicker>
+        <nb-datepicker [min]="min" #datepicker></nb-datepicker>
       </div>
 
       <div class="group">

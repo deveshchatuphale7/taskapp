@@ -12,9 +12,9 @@ export class CommonService {
   userLabels:string[] = ['Work','Personal','Shopping'];
   firstName:string = 'Devesh';
   lastName:string = 'Chatuphale';
-  baseURL:string = 'http://localhost:3000/';
+  baseURL:string = 'http://localhost:3000/'; //  base url of endpoint
   
-
+// Common function to run animation on selected html element
   public runAnimation(id:string,animName:string){
       console.log("runAnimation  ",id);
     const node = document.querySelector(id);
@@ -29,26 +29,23 @@ export class CommonService {
     }
 }
 
-
+// Anmate css function using promise 
    animateCSS = (element, animation, prefix = 'animate__') =>
-  // We create a Promise and return it
   new Promise((resolve, reject) => {
     const animationName = `${prefix}${animation}`;
     const node = document.querySelector(element);
-
     node.classList.add(`${prefix}animated`, animationName);
 
-    // When the animation ends, we clean the classes and resolve the Promise
     function handleAnimationEnd() {
       node.classList.remove(`${prefix}animated`, animationName);
       node.removeEventListener('animationend', handleAnimationEnd);
-
       resolve('Animation ended');
     }
 
     node.addEventListener('animationend', handleAnimationEnd);
   });
 
+// Function to show toast
   showToast(position, status,msg) {
     let iconName:string='';
     switch(status){
@@ -74,13 +71,16 @@ export class CommonService {
       { position,status,duration,icon:iconConfig});
   }
 
+
+  //Function for get rest api call
   httpGet(url){
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Accept', 'application/json').append('Authorization', 'Bearer '+localStorage.getItem('timeToken'));
     
-    return this.http.get(url,{headers:headers});
+    return this.http.get(this.baseURL + url,{headers:headers});
   }
 
+  // Function for post rest api call
   httpPost(route,params){
 
 let headers: HttpHeaders = new HttpHeaders();

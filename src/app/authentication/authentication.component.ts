@@ -10,24 +10,13 @@ import { Router } from '@angular/router';
 export class AuthenticationComponent implements OnInit {
 
   constructor(private common:CommonService,private router:Router) { }
-  signinObj:any = {
-    email: undefined,
-    password: undefined
 
-  };
-
-  userDataObj: any = {
-    firstName: undefined,
-    lastName: undefined,
-    email: undefined,
-    contactNo: undefined,
-    password: undefined,
-    cnfPassword: undefined,
-  };
-  
+    loaderFlag:boolean = false;
   ngOnInit() {
   }
 
+
+  //Function to sign in user 
   public signupUser(userDataObj:any):void{
     if(userDataObj.firstName && userDataObj.lastName && userDataObj.email && userDataObj.contactNo && userDataObj.password && userDataObj.cnfPassword){
          
@@ -40,7 +29,12 @@ export class AuthenticationComponent implements OnInit {
         this.common.showToast('top-right', 'danger','Passwords doesnt match');
       }
       else{
-        this.common.httpPost('signup',userDataObj).subscribe((res:any)=>{
+        this.loaderFlag = true;
+      let sub$ = this.common.httpPost('signup',userDataObj).subscribe((res:any)=>{
+          this.loaderFlag = false;
+          setTimeout(() => {
+            sub$.unsubscribe();  
+          }, 2000);
 
           if(res.statusCode != 200){
             this.common.showToast('top-right', 'danger',res.msg);
@@ -51,6 +45,7 @@ export class AuthenticationComponent implements OnInit {
             }
           }
         },((err:any)=>{
+          this.loaderFlag = false;
           this.common.showToast('top-right', 'danger',err.msg || 'Something went wrong !');
         }));
       } 
@@ -70,27 +65,25 @@ export class AuthenticationComponent implements OnInit {
     }else if(signinObj.password.length == 0){
       this.common.showToast('top-right', 'danger','Please enter password');
     }else{
-
-      this.common.httpPost('signin',signinObj).subscribe((res:any)=>{
+      this.loaderFlag = true;
+      let sub$ = this.common.httpPost('signin',signinObj).subscribe((res:any)=>{
+        this.loaderFlag = false;
          this.common.showToast('top-right', 'info',`Welcome ${res.msg.firstName} ${res.msg.lastName} !`);
         localStorage.setItem("email",res.msg.email);
         localStorage.setItem("firstName",res.msg.firstName);
         localStorage.setItem("lastName",res.msg.lastName);
         localStorage.setItem("timeToken",res.msg.token);
           setTimeout(() => {
-             this.router.navigate(["/home"]);    
+             this.router.navigate(["/home"]); 
+             sub$.unsubscribe();   
           }, 600);
-            
-
-
       },err=>{
-        // console.log(err);
-        if(err.status == 401){
+        this.loaderFlag = false;
+      if(err.status == 401){
           this.common.showToast('top-right', 'danger',err.msg || 'Invalid credentials ');
         }else{
           this.common.showToast('top-right', 'danger',err.msg || 'Something went wrong !');
-        }
-        
+        } 
       });
     }    
   }

@@ -14,6 +14,7 @@ export class AddnoteComponent implements OnInit {
   public notesTitle:string = '';
   public dueDate:Date;
   public taskLabel:string;
+  public min:Date = new Date()
 
   tags:string[] = ['learning','office','other','work'];
   selectedTags:string[] = [];
@@ -66,7 +67,8 @@ export class AddnoteComponent implements OnInit {
   constructor(private common:CommonService) { }
 
   ngOnInit() {
-    let taskToEdit:any = localStorage.getItem('taskForEdit')
+    this.min.setDate(this.min.getDate() - 1);
+    let taskToEdit:any = localStorage.getItem('taskForEdit');
     if(taskToEdit != undefined){
       taskToEdit = JSON.parse(taskToEdit);
       this.uid = taskToEdit.uid;

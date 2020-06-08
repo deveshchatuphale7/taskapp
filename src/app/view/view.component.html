@@ -82,7 +82,7 @@
                 <nb-icon class="nb-icn" (click)="editTask(eachTask.uid)" nbTooltip="Edit task" id="edittask{{ind}}" (mouseenter) ="common.runAnimation('#edittask'+ind,'heartBeat')"  nbTooltipPlacement="right" nbTooltipIcon="edit-2-outline" icon="edit-2-outline"></nb-icon>
             </td>
             <td style="width: 5%;text-align: center;">
-                <nb-icon class="nb-icn" nbTooltip="Delete task" id="deletetask{{ind}}" (click)="archiveTask(eachTask.uid)" (mouseenter) ="common.runAnimation('#deletetask'+ind,'heartBeat')" nbTooltipPlacement="right" nbTooltipIcon="trash-2-outline" icon="trash-2-outline"></nb-icon>
+                <nb-icon class="nb-icn" nbTooltip="Delete task" id="deletetask{{ind}}" (click)="archiveTask('active',eachTask.uid,'row'+ind)" (mouseenter) ="common.runAnimation('#deletetask'+ind,'heartBeat')" nbTooltipPlacement="right" nbTooltipIcon="trash-2-outline" icon="trash-2-outline"></nb-icon>
             </td>
         </tr>
     </table>
@@ -112,7 +112,6 @@
           <td style="width: 30%;" [ngClass]="{'task-text-complete': eachTask.completed}">
               {{eachTask.taskTitle}}
           </td>
-          <!-- If possible , due date -->
           <td style="width: 15%;">
               Completed on {{eachTask.completedOn | date}}
           </td>
@@ -120,10 +119,13 @@
           <td style="width: 15%;"> </td>
   
           <td style="width: 5%;text-align: center;"></td>
-          <td style="width: 5%;text-align: center;"></td>
           <td style="width: 5%;text-align: center;">
-              <nb-icon class="nb-icn" nbTooltip="Undo" id="undoc{{ind}}" (click)="undoTasks('complete',eachTask.uid,'rowc'+ind)" (mouseenter) ="common.runAnimation('#undoc'+ind,'heartBeat')" nbTooltipPlacement="top" nbTooltipIcon="undo-outline" icon="undo-outline"></nb-icon>
+              <nb-icon class="nb-icn" nbTooltip="Mark as incomplete" id="undoc{{ind}}" (click)="undoTasks('complete',eachTask.uid,'rowc'+ind)" (mouseenter) ="common.runAnimation('#undoc'+ind,'heartBeat')" nbTooltipPlacement="top" nbTooltipIcon="undo-outline" icon="undo-outline"></nb-icon>
           </td>
+          <td style="width: 5%;text-align: center;">
+            <nb-icon class="nb-icn" nbTooltip="Delete task" id="deletetaskc{{ind}}" (click)="archiveTask('complete',eachTask.uid,'rowc'+ind)" (mouseenter) ="common.runAnimation('#deletetaskc'+ind,'heartBeat')" nbTooltipPlacement="right" nbTooltipIcon="trash-2-outline" icon="trash-2-outline"></nb-icon>
+          </td>
+
       </tr>
   </table>
 </div>
@@ -144,12 +146,11 @@
   <table style="width: 100%;border-collapse: separate;border-spacing: 0px 6px;">
       <tr class="card1" id="rowd{{ind}}" *ngFor="let eachTask of deletedTasksData;let ind=index;">
           <td style="width: 5%;text-align: center;">
-              <nb-icon [ngClass]="{'task-not-complete': !eachTask.completed,'task-complete': eachTask.completed}" nbTooltip="Mark as completed" nbTooltipPlacement="top" nbTooltipIcon="checkmark-circle-2-outline" icon="checkmark-circle-2-outline"></nb-icon>
+              <nb-icon [ngClass]="{'task-not-complete': !eachTask.completed,'task-complete': eachTask.completed}" icon="checkmark-circle-2-outline"></nb-icon>
           </td>
           <td style="width: 30%;" [ngClass]="{'task-text-complete': eachTask.completed}">
               {{eachTask.taskTitle}}
           </td>
-          <!-- If possible , due date -->
           <td style="width: 15%;">
               Archived on {{eachTask.deletedOn | date}} 
           </td>
@@ -159,7 +160,7 @@
           <td style="width: 5%;text-align: center;"></td>
           <td style="width: 5%;text-align: center;"></td>
           <td style="width: 5%;text-align: center;">
-              <nb-icon class="nb-icn" nbTooltip="Undo" id="undod{{ind}}" (click)="undoTasks('delete',eachTask.uid,'rowd'+ind)" (mouseenter) ="common.runAnimation('#undod'+ind,'heartBeat')" nbTooltipPlacement="top" nbTooltipIcon="undo-outline" icon="undo-outline"></nb-icon>
+              <nb-icon class="nb-icn" nbTooltip="Remove from archived tasks" id="undod{{ind}}" (click)="undoTasks('delete',eachTask.uid,'rowd'+ind)" (mouseenter) ="common.runAnimation('#undod'+ind,'heartBeat')" nbTooltipPlacement="top" nbTooltipIcon="undo-outline" icon="undo-outline"></nb-icon>
           </td>
       </tr>
   </table>
@@ -168,14 +169,22 @@
 </div>
 
 <ng-template #dialog let-data let-ref="dialogRef">
-    <div style="width: 700px;"> <!-- height: 600px;-->
+    <div style="width: 700px;"> 
         <nb-card>
-            <nb-card-header style="font-family: 'Poppins', sans-serif;">{{selectedTaskForView.taskTitle }}</nb-card-header>
+            <nb-card-header style="font-family: 'Poppins', sans-serif;display: flex;flex-direction: row;justify-content: space-between;align-items: baseline;">
+              
+              <h4 style="font-family: 'Poppins', sans-serif">{{selectedTaskForView.taskTitle }}</h4>
+              <span style="font-family: 'Poppins', sans-serif"> Due on {{selectedTaskForView.dueDate | date}} </span>
+            </nb-card-header>
+            <nb-card-header style="font-family: 'Poppins', sans-serif;display: flex;flex-direction: row;justify-content: space-between;">
+            <div> <button *ngFor="let tag of selectedTaskForView.tags" class="{{tag}}"> {{tag}} </button></div>
+            <div>Label : {{selectedTaskForView.label[0]}}</div>  
+            </nb-card-header>
             <nb-card-body> 
               <div style="font-family: 'Poppins', sans-serif;" [innerHTML]="selectedTaskForView.taskDesc">
               </div>
           </nb-card-body>
-            <nb-card-footer>
+            <nb-card-footer style="text-align: right;">
               <button nbButton hero size="small" (click)="ref.close()">Close</button>
             </nb-card-footer>
           </nb-card>
@@ -188,12 +197,6 @@
         <nb-list-item *ngFor="let tag of tags">
              <nb-checkbox value=true [(ngModel)]="tagsObj[tag]"  status="success" (checkedChange)="updateFilterTags(tag)"><button class="{{tag}}" >{{tag}}</button></nb-checkbox> 
         </nb-list-item>
-        <!-- <nb-list-item>
-            <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 2</button></nb-checkbox>
-        </nb-list-item>
-        <nb-list-item>
-            <nb-checkbox status="success"><button shape="round" size="small" nbButton status="info">Label 3</button></nb-checkbox>
-        </nb-list-item> -->
     </nb-list>
   </ng-template>
 
@@ -206,11 +209,5 @@
         <nb-list-item>
           <nb-radio status="success"> Sort by Due date <button>Recent to last</button><button>Last to recent</button> </nb-radio> 
      </nb-list-item>
-        <!-- <nb-list-item>
-            <nb-checkbox status="success"><button shape="round" size="small" nbButton >Label 2</button></nb-checkbox>
-        </nb-list-item>
-        <nb-list-item>
-            <nb-checkbox status="success"><button shape="round" size="small" nbButton status="info">Label 3</button></nb-checkbox>
-        </nb-list-item> -->
     </nb-list>
   </ng-template>
